@@ -1,6 +1,4 @@
-use std::iter::Map;
 use std::collections::HashMap;
-use std::hash::BuildHasherDefault;
 
 static PUZZLE: &'static str = include_str!("../../resources/puzzle15.txt");
 
