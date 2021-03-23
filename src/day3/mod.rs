@@ -12,22 +12,33 @@ struct XY {
 pub(crate) fn day3() {
     println!("Day 3");
 
-    let trees = resource_to_trees();
-    let size = resource_to_size();
+    let (trees, size) = mine_resources();
 
     part1(&trees, &size);
     part2(&trees, &size);
 }
 
+fn mine_resources() -> (HashSet<XY>, XY) {
+    let start_time = Instant::now();
+    let trees = resource_to_trees();
+    let size = resource_to_size();
+
+    println!("Resource extraction, {}µs", start_time.elapsed().as_micros());
+    (trees, size)
+}
+
 fn part1(trees: &HashSet<XY>, size: &XY) {
-    let i1 = Instant::now();
-    let p1 = calc_hits(&trees, &size, &XY { x: 3, y: 1 });
-    println!("Day 3, part1: {}, took {}micros", p1, i1.elapsed().as_micros());
+    let start_time = Instant::now();
+    let part_1_result = calc_hits(&trees, &size, &XY { x: 3, y: 1 });
+
+    println!("Day 3, part1: {}, took {}µs",
+             part_1_result,
+             start_time.elapsed().as_micros());
 }
 
 fn part2(trees: &HashSet<XY>, size: &XY) {
-    let i2 = Instant::now();
-    let p2 = [
+    let start_time = Instant::now();
+    let part_2_result = [
         XY { x: 1, y: 1 },
         XY { x: 3, y: 1 },
         XY { x: 5, y: 1 },
@@ -37,7 +48,10 @@ fn part2(trees: &HashSet<XY>, size: &XY) {
         .map(|step| calc_hits(&trees, &size, step))
         .into_iter()
         .fold(1, |a, v| a * v);
-    println!("Day 3, part2: {}, took {}micros", p2, i2.elapsed().as_micros())
+
+    println!("Day 3, part2: {}, took {}µs",
+             part_2_result,
+             start_time.elapsed().as_micros())
 }
 
 fn calc_hits(trees: &HashSet<XY>, size: &XY, step: &XY) -> u32 {
@@ -80,5 +94,5 @@ fn maybe_tree(x: u32, y: u32, c: char) -> Option<XY> {
         Some(XY { x, y })
     } else {
         None
-    };
+    }
 }
